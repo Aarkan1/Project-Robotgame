@@ -2,7 +2,7 @@ package com.game;
 
 public interface IfMovement {
 
-    public void doRun();
+    void doRun(Robot robot);
 
 
 }

@@ -6,6 +6,7 @@ public abstract class Robot implements IfMovement {
 
     private int coordX, coordY;
     private int speed;
+    private Random rnd = new Random();
 
 
     public Robot() {
@@ -43,25 +44,26 @@ public abstract class Robot implements IfMovement {
     }
 
     @Override
-    public void doRun() {
+    public void doRun(Robot robot) {
 
-        Random rnd = new Random();
+        double angle;
 
-        int rndNum;
+        angle = rnd.nextInt(4)*(Math.PI/2); //Randomize trajectory angle
 
-            rndNum = rnd.nextInt(3) - 1;
+        //Using polar coordinates:
 
-            if ((getCoordX() + (rndNum * getSpeed()) >= 0) && (getCoordX() + (rndNum * getSpeed()) <= 29)) {
-                setCoordX(getCoordX() + (rndNum * getSpeed()));
-            }
+        if ((getCoordX() + getSpeed()*(int)Math.round(Math.cos(angle)) >= 0) && (getCoordX() + getSpeed()*Math.round(Math.cos(angle)) <= 29)) {
+            setCoordX(getCoordX() + getSpeed()*(int)Math.round(Math.cos(angle)));
+        }
 
-            rndNum = rnd.nextInt(3) - 1;
+        angle = rnd.nextInt(4)*(Math.PI/2);
 
-            if ((getCoordY() + (rndNum * getSpeed()) >= 0) && (getCoordY() + (rndNum * getSpeed()) <= 29)) {
-                setCoordY(getCoordY() + (rndNum * getSpeed()));
-            }
+        if ((getCoordY() + getSpeed()*(int)Math.round(Math.sin(angle)) >= 0) && (getCoordY() + getSpeed()*Math.round(Math.sin(angle)) <= 29)) {
+            setCoordY(getCoordY() + getSpeed()*(int)Math.round(Math.sin(angle)));
+        }
 
 
 
     }
+
 }

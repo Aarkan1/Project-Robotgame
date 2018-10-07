@@ -13,9 +13,4 @@ public class ZebraRobot extends Robot {
         setSpeed(1);
     }
 
-    @Override
-    public void doRun() {
-        super.doRun();
-    }
-
 }
