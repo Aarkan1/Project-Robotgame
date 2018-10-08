@@ -28,7 +28,7 @@ public class Gameboard {
     }
 
     // makes every robot move, and replace the old tile with the defaultTile
-    public void moveRobot(ArrayList<Robot> zebras, ArrayList<Robot> cheetahs, int loopClock) {
+    public void moveRobot(ArrayList<ZebraRobot> zebras, ArrayList<CheetahRobot> cheetahs, int loopClock) {
 
         // tells the zebras to move every other turn
         if (loopClock % zebras.get(0).getSpeed().speed == 0) {
@@ -47,23 +47,30 @@ public class Gameboard {
 
         // tells the cheetahs to move
         for (int i = 0; i < cheetahs.size(); i++) {
-
+            
             // check if the cheetah is standing on the same
             // coordinate as a zebra.
-            // if it do, remove the zebra
+            // if it does, remove the zebra
             for (int j = 0; j < zebras.size(); j++) {
                 if ((zebras.get(j).getCoordX() == cheetahs.get(i).getCoordX()) &&
                         (zebras.get(j).getCoordY() == cheetahs.get(i).getCoordY())) {
                     zebras.remove(j);
+                    cheetahs.get(i).setHungerState(Hunger.FULL);
+                    cheetahs.get(i).setFullness(cheetahs.get(i).getFullness() + 5);
                 }
             }
             gameboard[cheetahs.get(i).getCoordX()][cheetahs.get(i).getCoordY()] = defaultTile;
 
             // may only move if nothing is in the way
             // not efficient
-            do {
-                cheetahs.get(i).doRun();
-            } while (!cheetahs.get(i).detectCollision(zebras, cheetahs));
+
+            if (cheetahs.get(i).getFullness() == 0) {
+                cheetahs.get(i).setHungerState(Hunger.HUNGRY);
+                do {
+                    cheetahs.get(i).doRun();
+                } while (!cheetahs.get(i).detectCollision(zebras, cheetahs));
+            }
+            else { cheetahs.get(i).setFullness(cheetahs.get(i).getFullness() - 1); }
 
             gameboard[cheetahs.get(i).getCoordX()][cheetahs.get(i).getCoordY()] = cheetahTile;
         }
