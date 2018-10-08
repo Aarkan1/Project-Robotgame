@@ -45,8 +45,8 @@ public class Game {
         int loopClock = 1;
 
         // creates two lists for holding the different robot objects
-        ArrayList<Robot> zebras = new ArrayList<>();
-        ArrayList<Robot> cheetahs = new ArrayList<>();
+        ArrayList<ZebraRobot> zebras = new ArrayList<>();
+        ArrayList<CheetahRobot> cheetahs = new ArrayList<>();
 
         // fills lists with robot objects
         for (int i = 0; i < numZe; i++) {
