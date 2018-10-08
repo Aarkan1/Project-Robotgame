@@ -2,40 +2,49 @@ package com.game;
 
 import java.util.ArrayList;
 
+// class that contains the game loop
 public class Game {
 
     public void gameloop() {
 
+        // starts off with painting the grid
         Gameboard game = new Gameboard();
         game.gameboard();
 
-        ZebraRobot zebra = new ZebraRobot();
-        CheetahRobot cheetah = new CheetahRobot();
+        // counter for enabling turnbased movement
+        int loopClock = 1;
 
+        // creates two lists for holding the different robot objects
         ArrayList<Robot> zebras = new ArrayList<>();
         ArrayList<Robot> cheetahs = new ArrayList<>();
 
-        zebras.add(zebra);
-        cheetahs.add(cheetah);
+        // fills lists with robot objects
+        for (int i = 0; i < 10; i++) {
+            zebras.add(new ZebraRobot());
+            cheetahs.add(new CheetahRobot());
+        }
 
+        // the game loop
+        // ends the game when no zebrarobot remains
+        // whenever a cheetah make contact with a zebra, it consumes it
+        while (!zebras.isEmpty()) {
 
+            // increments the counter
+            loopClock++;
 
-        while(!zebras.isEmpty()){
+            // sends the lists with the counter for movement
+            game.moveRobot(zebras, cheetahs, loopClock);
 
-            game.spawnRobot(zebras.get(0),cheetahs.get(0));
-
+            // prints out the game
             game.printBoard();
 
-
+            // controls the speed of the game
+            // else it'll be over in an instant
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e) {
 
             }
-
         }
-
-
     }
-
 }
