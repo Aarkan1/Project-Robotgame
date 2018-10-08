@@ -1,11 +1,41 @@
 package com.game;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 // class that contains the game loop
 public class Game {
 
     public void gameloop() {
+        Scanner Scan = new Scanner(System.in);
+        int numZe = 0, numGe = 0;
+        String str = "";
+        boolean inputNum = false;
+
+        do{
+            System.out.println("Ange hur många geparder vill du ha? ");
+            str = Scan.nextLine();
+            if(str.matches("[1-9][0-9]*")){
+                numGe = Integer.valueOf(str);
+                inputNum = true;
+            } else {
+                System.out.println("This is not allowed!");
+
+            }}while (inputNum == false);
+        inputNum= false;
+        do{
+            System.out.println("Ange hur många zebras vill du ha? ");
+            str = Scan.nextLine();
+            if(str.matches("[1-9][0-9]*")){
+                numZe = Integer.valueOf(str);
+                inputNum = true;
+            } else {
+                System.out.println("This is not allowed!");
+
+            }}while ((inputNum == false) || (numZe < numGe));
+
+
+
 
         // starts off with painting the grid
         Gameboard game = new Gameboard();
@@ -19,8 +49,11 @@ public class Game {
         ArrayList<Robot> cheetahs = new ArrayList<>();
 
         // fills lists with robot objects
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numZe; i++) {
             zebras.add(new ZebraRobot());
+
+        }
+        for (int i = 0; i < numGe; i++) {
             cheetahs.add(new CheetahRobot());
         }
 
