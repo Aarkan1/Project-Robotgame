@@ -29,7 +29,7 @@ public class ZebraRobot extends Robot {
     // function for detecting if the next step has an object or not
     // returns true if next step is clear
     @Override
-    public boolean detectCollision(ArrayList<Robot> zebras, ArrayList<Robot> cheetahs) {
+    public boolean detectCollision(ArrayList<ZebraRobot> zebras, ArrayList<CheetahRobot> cheetahs) {
 
         boolean clear = true;
 
