@@ -7,6 +7,8 @@ public class CheetahRobot extends Robot {
 
     // cheetahs has a hungerstate
     Hunger hungerState;
+    private int fullness;
+
 
     // default constructor
     // places the robot on the lower right tile
@@ -15,6 +17,7 @@ public class CheetahRobot extends Robot {
         super(Gameboard.GRID_SIZE - 1, Gameboard.GRID_SIZE - 1);
         setHungerState(Hunger.HUNGRY);
         setSpeed(Speed.FAST);
+        setFullness(10);
     }
 
     // constructor for custom placement of the robot
@@ -23,6 +26,15 @@ public class CheetahRobot extends Robot {
         super(coordX, coordY);
         setHungerState(Hunger.HUNGRY);
         setSpeed(Speed.FAST);
+        setFullness(10);
+    }
+    
+    public int getFullness() {
+        return fullness;
+    }
+
+    public void setFullness(int fullness) {
+        this.fullness = fullness;
     }
 
     public Hunger getHungerState() {
@@ -42,7 +54,7 @@ public class CheetahRobot extends Robot {
     // function for detecting if the next step has an object or not
     // returns true if next step is clear
     @Override
-    public boolean detectCollision(ArrayList<Robot> zebras, ArrayList<Robot> cheetahs) {
+    public boolean detectCollision(ArrayList<ZebraRobot> zebras, ArrayList<CheetahRobot> cheetahs) {
 
         boolean clear = true;
 
