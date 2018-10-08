@@ -39,4 +39,5 @@ public class Main {
  * Lagt till kollisions check, så robotarna inte spawnar på samma ruta
  * och att de inte går på varandra när de går runt
  *
+ * 
  * */
