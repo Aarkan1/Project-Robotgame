@@ -6,9 +6,11 @@ import java.util.Scanner;
 // class that contains the game loop
 public class Game {
 
+    // default constructor
     public Game() {
     }
 
+    // game loop that updates the output to screen
     public void gameloop() {
 
         Scanner Scan = new Scanner(System.in);
@@ -17,29 +19,29 @@ public class Game {
         boolean inputNum = false;
 
         do {
-            System.out.println("Ange hur många geparder vill du ha? ");
+            System.out.println("Input number of cheetahs: ");
             str = Scan.nextLine();
             if (str.matches("[1-9][0-9]*")) {
                 numGe = Integer.valueOf(str);
                 inputNum = true;
             } else {
-                System.out.println("This is not allowed!");
-
+                System.out.println("Only numbers!");
             }
+
         } while (inputNum == false);
 
         inputNum = false;
 
         do {
-            System.out.println("Ange hur många zebras vill du ha? ");
+            System.out.println("Input number of zebras (must be more or equal than cheetahs) ");
             str = Scan.nextLine();
             if (str.matches("[1-9][0-9]*")) {
                 numZe = Integer.valueOf(str);
                 inputNum = true;
             } else {
-                System.out.println("This is not allowed!");
-
+                System.out.println("Only numbers!");
             }
+
         } while ((inputNum == false) || (numZe < numGe));
 
         // starts off with painting the grid
@@ -49,26 +51,28 @@ public class Game {
         // counter for enabling turnbased movement
         int loopClock = 1;
 
-        // creates two lists for holding the different robot objects
-        ArrayList<Robot> zebras = new ArrayList<>();
-        ArrayList<Robot> cheetahs = new ArrayList<>();
+        // list containing all robots
+        ArrayList<Robot> robots = new ArrayList<>();
+
 
         // fills lists with robot objects
-        for (int i = 0; i < 10; i++) {
-            zebras.add(new ZebraRobot());
-            cheetahs.add(new CheetahRobot());
+        for (int i = 0; i < numGe; i++) {
+            robots.add(new CheetahRobot());
+        }
+        for (int i = 0; i < numZe; i++) {
+            robots.add(new ZebraRobot());
         }
 
         // the game loop
         // ends the game when no zebrarobot remains
         // whenever a cheetah make contact with a zebra, it consumes it
-        while (!zebras.isEmpty()) {
+        while (robots.size() - numGe != 0) {
 
             // increments the counter
             loopClock++;
 
             // sends the lists with the counter for movement
-            game.moveRobot(zebras, cheetahs, loopClock);
+            game.moveRobot(robots, loopClock);
 
             // prints out the game
             game.printBoard();
@@ -76,7 +80,7 @@ public class Game {
             // controls the speed of the game
             // else it'll be over in an instant
             try {
-                Thread.sleep(300);
+                Thread.sleep(400);
             } catch (InterruptedException e) {
 
             }

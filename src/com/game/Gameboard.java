@@ -2,9 +2,10 @@ package com.game;
 
 import java.util.ArrayList;
 
-
+// class for managing the objects in the game
 public class Gameboard {
 
+    // default constructor
     public Gameboard() {
     }
 
@@ -12,13 +13,12 @@ public class Gameboard {
     static final int GRID_SIZE = 20;
 
     // the gameboard is a 2d String array
-    String[][] gameboard = new String[GRID_SIZE][GRID_SIZE];
+    private String[][] gameboard = new String[GRID_SIZE][GRID_SIZE];
 
     // the tiles in String
-    String defaultTile = " |";
-    String cheetahTile = "C|";
-    String zebraTile = "Z|";
-
+    private String defaultTile = " |";
+    private String cheetahTile = "C|";
+    private String zebraTile = "Z|";
 
     // fills the gameboard with the defaultTile in a nestled for-loop
     public void gameboard() {
@@ -31,44 +31,38 @@ public class Gameboard {
     }
 
     // makes every robot move, and replace the old tile with the defaultTile
-    public void moveRobot(ArrayList<Robot> zebras, ArrayList<Robot> cheetahs, int loopClock) {
+    public void moveRobot(ArrayList<Robot> robots, int loopClock) {
 
-        if (!zebras.isEmpty()) {
-            // tells the zebras to move every other turn
-            if (loopClock % zebras.get(0).getSpeed().speed == 0) {
-                for (int i = 0; i < zebras.size(); i++) {
-                    gameboard[zebras.get(i).getCoordX()][zebras.get(i).getCoordY()] = defaultTile;
+        // tells the zebras to move every other turn
+        for (int i = 0; i < robots.size(); i++) {
 
-                    // may only move if nothing is in the way
-                    zebras.get(i).doRun(gameboard);
+            if (loopClock % robots.get(i).getSpeed().speed == 0) {
 
-                    gameboard[zebras.get(i).getCoordX()][zebras.get(i).getCoordY()] = zebraTile;
+                gameboard[robots.get(i).getCoordX()][robots.get(i).getCoordY()] = defaultTile;
+
+                // may only move if nothing is in the way
+                robots.get(i).doRun(gameboard);
+
+                robots.get(i).setFullness(robots.get(i).getFullness() - 1);
+
+                if (robots.get(i) instanceof ZebraRobot) {
+                    gameboard[robots.get(i).getCoordX()][robots.get(i).getCoordY()] = zebraTile;
+                } else if (robots.get(i) instanceof CheetahRobot) {
+                    gameboard[robots.get(i).getCoordX()][robots.get(i).getCoordY()] = cheetahTile;
+
+                    for (int j = 0; j < robots.size(); j++) {
+
+                        if (robots.get(j) instanceof ZebraRobot) {
+                            if ((robots.get(i).getCoordX() == robots.get(j).getCoordX()) &&
+                                    (robots.get(i).getCoordY() == robots.get(j).getCoordY())) {
+                                robots.remove(j);
+
+                                robots.get(i).setFullness(5);
+                            }
+                        }
+                    }
                 }
             }
-        }
-
-        // tells the cheetahs to move
-        for (int i = 0; i < cheetahs.size(); i++) {
-
-            // check if the cheetah is standing on the same
-            // coordinate as a zebra.
-            // if it do, remove the zebra
-            for (int j = 0; j < zebras.size(); j++) {
-                if ((zebras.get(j).getCoordX() == cheetahs.get(i).getCoordX()) &&
-                        (zebras.get(j).getCoordY() == cheetahs.get(i).getCoordY())) {
-                    zebras.remove(j);
-
-                    // set hunger state with setter
-                    // cheetahs.get(i).setHungerClock(5);
-
-                }
-            }
-            gameboard[cheetahs.get(i).getCoordX()][cheetahs.get(i).getCoordY()] = defaultTile;
-
-            // may only move if nothing is in the way
-            cheetahs.get(i).doRun(gameboard);
-
-            gameboard[cheetahs.get(i).getCoordX()][cheetahs.get(i).getCoordY()] = cheetahTile;
         }
     }
 
@@ -78,7 +72,7 @@ public class Gameboard {
         for (int i = 0; i < gameboard.length; i++) {
             System.out.print("|");
             for (int j = 0; j < gameboard.length; j++) {
-                System.out.printf("%s", gameboard[i][j]);
+                System.out.print(gameboard[i][j]);
             }
             System.out.println();
         }

@@ -1,6 +1,5 @@
 package com.game;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 // superclass, a Robot template
@@ -9,6 +8,9 @@ public abstract class Robot implements IfMovement {
     // positioning and speed variables
     private int coordX, coordY;
     private Speed speed;
+    private int fullness;
+    private Random rnd = new Random();
+
 
     // default constructor
     public Robot() {
@@ -45,6 +47,14 @@ public abstract class Robot implements IfMovement {
         }
     }
 
+    public int getFullness() {
+        return fullness;
+    }
+
+    public void setFullness(int fullness) {
+        this.fullness = fullness;
+    }
+
     public Speed getSpeed() {
         return speed;
     }
@@ -59,8 +69,6 @@ public abstract class Robot implements IfMovement {
     // checks if it's a default tile, else it goes another way
     @Override
     public void doRun(String[][] gameBoard) {
-
-        Random rnd = new Random();
 
         int rndX, rndY;
         boolean clear = false;

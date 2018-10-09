@@ -1,7 +1,5 @@
 package com.game;
 
-import java.util.ArrayList;
-
 // subclass from robot
 public class ZebraRobot extends Robot {
 
