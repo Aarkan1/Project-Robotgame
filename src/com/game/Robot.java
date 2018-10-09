@@ -28,7 +28,10 @@ public abstract class Robot implements IfMovement {
     }
 
     public void setCoordX(int coordX) {
-        this.coordX = coordX;
+
+        if ((coordX >= 0) && (coordX < Gameboard.GRID_SIZE)) {
+            this.coordX = coordX;
+        }
     }
 
     public int getCoordY() {
@@ -36,7 +39,10 @@ public abstract class Robot implements IfMovement {
     }
 
     public void setCoordY(int coordY) {
-        this.coordY = coordY;
+
+        if ((coordY >= 0) && (coordY < Gameboard.GRID_SIZE)) {
+            this.coordY = coordY;
+        }
     }
 
     public Speed getSpeed() {
@@ -50,49 +56,31 @@ public abstract class Robot implements IfMovement {
     // function from the interface
     // when called, makes the robot move 1 step in a random direction
     // checks every step so the robot can't go out of bounds of the grid
+    // checks if it's a default tile, else it goes another way
     @Override
-    public void doRun(ArrayList<Robot> zebras) {
+    public void doRun(String[][] gameBoard) {
 
         Random rnd = new Random();
-        Gameboard border = new Gameboard();
-        int rndNum;
-        double angle;
 
-        angle = rnd.nextInt(4) * (Math.PI / 2); //Randomize trajectory angle
+        int rndX, rndY;
+        boolean clear = false;
 
-        rndNum = rnd.nextInt(3) - 1;
+        do {
+            rndX = rnd.nextInt(3) - 1;
+            rndY = rnd.nextInt(3) - 1;
 
-        if ((getCoordX() + (int) Math.round(Math.cos(angle)) >= 0) && (getCoordX() + Math.round(Math.cos(angle)) <= Gameboard.GRID_SIZE - 1)) {
-            setCoordX(getCoordX() + (int) Math.round(Math.cos(angle)));
-        }
-        angle = rnd.nextInt(4) * (Math.PI / 2);
+            if ((this.getCoordX() + rndX >= 0 && this.getCoordX() + rndX < Gameboard.GRID_SIZE)
+                    && (this.getCoordY() + rndY >= 0 && this.getCoordY() + rndY < Gameboard.GRID_SIZE)) {
+                if (gameBoard[this.getCoordY() + rndY][this.getCoordX() + rndX] == " |") {
+                    clear = true;
+                }
+            }
 
-        if ((getCoordY() + (int) Math.round(Math.sin(angle)) >= 0) && (getCoordY() + Math.round(Math.sin(angle)) <= Gameboard.GRID_SIZE - 1)) {
-            setCoordY(getCoordY() + (int) Math.round(Math.sin(angle)));
-        }
+        } while (!clear);
 
+        setCoordX(this.getCoordX() + rndX);
+        setCoordY(this.getCoordY() + rndY);
 
-//
-//        if ((getCoordX() + rndNum >= 0) && (getCoordX() + rndNum <= border.GRID_SIZE - 1)) {
-//            setCoordX(getCoordX() + rndNum);
-//        }
-//
-//        rndNum = rnd.nextInt(3) - 1;
-//
-//        if ((getCoordY() + rndNum >= 0) && (getCoordY() + rndNum <= border.GRID_SIZE - 1)) {
-//            setCoordY(getCoordY() + rndNum);
-//        }
-    }
-
-
-    // function for detecting if the next step has an object or not
-    // returns true if next step is clear
-    @Override
-    public boolean detectCollision(ArrayList<Robot> zebras, ArrayList<Robot> cheetahs) {
-
-        boolean clear = true;
-
-        return clear;
     }
 
 }

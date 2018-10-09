@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public interface IfMovement {
 
     // movement methods
-    public void doRun(ArrayList<Robot> zebras);
-    public boolean detectCollision(ArrayList<Robot> zebras, ArrayList<Robot> cheetahs);
+    public void doRun(String[][] board);
 
 }

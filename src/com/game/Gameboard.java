@@ -5,8 +5,11 @@ import java.util.ArrayList;
 
 public class Gameboard {
 
+    public Gameboard() {
+    }
+
     // constant variable to easy access to grid size
-    static final int GRID_SIZE = 50;
+    static final int GRID_SIZE = 20;
 
     // the gameboard is a 2d String array
     String[][] gameboard = new String[GRID_SIZE][GRID_SIZE];
@@ -30,17 +33,14 @@ public class Gameboard {
     // makes every robot move, and replace the old tile with the defaultTile
     public void moveRobot(ArrayList<Robot> zebras, ArrayList<Robot> cheetahs, int loopClock) {
 
-        if(!zebras.isEmpty()) {
+        if (!zebras.isEmpty()) {
             // tells the zebras to move every other turn
             if (loopClock % zebras.get(0).getSpeed().speed == 0) {
                 for (int i = 0; i < zebras.size(); i++) {
                     gameboard[zebras.get(i).getCoordX()][zebras.get(i).getCoordY()] = defaultTile;
 
                     // may only move if nothing is in the way
-                    // not efficient
-                    do {
-                        zebras.get(i).doRun(cheetahs);
-                    } while (!zebras.get(i).detectCollision(zebras, cheetahs));
+                    zebras.get(i).doRun(gameboard);
 
                     gameboard[zebras.get(i).getCoordX()][zebras.get(i).getCoordY()] = zebraTile;
                 }
@@ -57,15 +57,16 @@ public class Gameboard {
                 if ((zebras.get(j).getCoordX() == cheetahs.get(i).getCoordX()) &&
                         (zebras.get(j).getCoordY() == cheetahs.get(i).getCoordY())) {
                     zebras.remove(j);
+
+                    // set hunger state with setter
+                    // cheetahs.get(i).setHungerClock(5);
+
                 }
             }
             gameboard[cheetahs.get(i).getCoordX()][cheetahs.get(i).getCoordY()] = defaultTile;
 
             // may only move if nothing is in the way
-            // not efficient
-            do {
-                cheetahs.get(i).doRun(zebras);
-            } while (!cheetahs.get(i).detectCollision(zebras, cheetahs));
+            cheetahs.get(i).doRun(gameboard);
 
             gameboard[cheetahs.get(i).getCoordX()][cheetahs.get(i).getCoordY()] = cheetahTile;
         }

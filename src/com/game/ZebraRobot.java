@@ -22,25 +22,8 @@ public class ZebraRobot extends Robot {
 
     // move the robot when called
     @Override
-    public void doRun(ArrayList<Robot> zebras) {
-        super.doRun(zebras);
+    public void doRun(String[][] board) {
+        super.doRun(board);
     }
 
-    // function for detecting if the next step has an object or not
-    // returns true if next step is clear
-    @Override
-    public boolean detectCollision(ArrayList<Robot> zebras, ArrayList<Robot> cheetahs) {
-
-        boolean clear = true;
-
-        for (int i = 0; i < zebras.size(); i++) {
-            if (!(zebras.get(i) == this)) {
-                if ((zebras.get(i).getCoordX() == this.getCoordX()) && (zebras.get(i).getCoordY() == this.getCoordY())) {
-                    clear = false;
-                    i = zebras.size();
-                }
-            }
-        }
-        return clear;
-    }
 }
