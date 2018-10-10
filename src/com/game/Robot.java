@@ -1,5 +1,6 @@
 package com.game;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 // superclass, a Robot template
@@ -68,26 +69,25 @@ public abstract class Robot implements IfMovement {
     // checks every step so the robot can't go out of bounds of the grid
     // checks if it's a default tile, else it goes another way
     @Override
-    public void doRun(String[][] gameBoard) {
+    public void doRun(String[][] gameBoard, ArrayList<Robot> robots) {
 
-        int rndX, rndY;
         boolean clear = false;
 
         do {
-            rndX = rnd.nextInt(3) - 1;
-            rndY = rnd.nextInt(3) - 1;
 
-            if ((this.getCoordX() + rndX >= 0 && this.getCoordX() + rndX < Gameboard.GRID_SIZE)
-                    && (this.getCoordY() + rndY >= 0 && this.getCoordY() + rndY < Gameboard.GRID_SIZE)) {
-                if (gameBoard[this.getCoordY() + rndY][this.getCoordX() + rndX] == " |") {
+            double angle = rnd.nextInt(4) * (Math.PI / 2);
+
+
+            if ((this.getCoordX() + (int) Math.round(1 * Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(1 * Math.cos(angle)) < Gameboard.GRID_SIZE)
+                    && (this.getCoordY() + (int) Math.round(1 * Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(1 * Math.sin(angle)) < Gameboard.GRID_SIZE)) {
+                if (gameBoard[this.getCoordY() + (int) Math.round(1 * Math.sin(angle))][this.getCoordX() + (int) Math.round(1 * Math.cos(angle))] == " ") {
+
+                    setCoordX(this.getCoordX() + (int) Math.round(1 * Math.cos(angle)));
+                    setCoordY(this.getCoordY() + (int) Math.round(1 * Math.sin(angle)));
                     clear = true;
                 }
             }
-
         } while (!clear);
-
-        setCoordX(this.getCoordX() + rndX);
-        setCoordY(this.getCoordY() + rndY);
 
     }
 

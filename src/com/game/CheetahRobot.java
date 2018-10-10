@@ -1,5 +1,6 @@
 package com.game;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 // subclass from robot
@@ -37,30 +38,55 @@ public class CheetahRobot extends Robot {
 
     // move the robot when called
     @Override
-    public void doRun(String[][] board) {
+    public void doRun(String[][] board, ArrayList<Robot> robots) {
 
         if (fullness == 0) {
 
-            int rndX, rndY;
+            int dX, dY, dZ;
+            int closeID = 0;
+            int closest = (int) Math.round(Math.sqrt(2 * Gameboard.GRID_SIZE * (Gameboard.GRID_SIZE)));
             boolean clear = false;
 
-            do {
-                rndX = rnd.nextInt(3) - 1;
-                rndY = rnd.nextInt(3) - 1;
+            for (int i = 0; i < robots.size(); i++) {
+                if (robots.get(i) instanceof ZebraRobot) {
+                    dX = robots.get(i).getCoordX() - this.getCoordX();
+                    dY = robots.get(i).getCoordY() - this.getCoordY();
+                    dZ = (int) Math.round(Math.sqrt((dX * dX) + (dY * dY)));
 
-                if ((this.getCoordX() + rndX >= 0 && this.getCoordX() + rndX < Gameboard.GRID_SIZE)
-                        && (this.getCoordY() + rndY >= 0 && this.getCoordY() + rndY < Gameboard.GRID_SIZE)) {
-                    if (board[this.getCoordY() + rndY][this.getCoordX() + rndX] != "C|") {
-                        clear = true;
+                    if (dZ < closest) {
+                        closest = dZ;
+                        closeID = i;
                     }
                 }
+            }
+            dX = robots.get(closeID).getCoordX() - this.getCoordX();
+            dY = robots.get(closeID).getCoordY() - this.getCoordY();
 
+
+            double angle = Math.atan2(dY, dX);
+
+
+            do {
+
+                if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
+                        && (this.getCoordY() + (int) Math.round(Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(Math.sin(angle)) < Gameboard.GRID_SIZE)) {
+
+                    if (board[this.getCoordY() + (int) Math.round(1 * Math.sin(angle))][this.getCoordX() + (int) Math.round(1 * Math.cos(angle))] == " C") {
+
+                        angle += Math.PI / 2;
+
+                    } else {
+
+                        setCoordX(this.getCoordX() + (int) Math.round(Math.cos(angle)));
+                        setCoordY(this.getCoordY() + (int) Math.round(Math.sin(angle)));
+
+                        clear = true;
+
+                    }
+                } else {
+                    clear = true;
+                }
             } while (!clear);
-
-            setCoordX(this.getCoordX() + rndX);
-            setCoordY(this.getCoordY() + rndY);
         }
-
     }
-
 }

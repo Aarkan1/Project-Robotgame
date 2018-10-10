@@ -1,6 +1,7 @@
 package com.game;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 // class that contains the game loop
@@ -17,6 +18,8 @@ public class Game {
         int numZe = 0, numGe = 0;
         String str = "";
         boolean inputNum = false;
+        Random rnd = new Random();
+        int rndX, rndY;
 
         do {
             System.out.println("Input number of cheetahs: ");
@@ -55,12 +58,17 @@ public class Game {
         ArrayList<Robot> robots = new ArrayList<>();
 
 
-        // fills lists with robot objects
+        // fills list with robot objects
+        // and place them randomly on the grid
         for (int i = 0; i < numGe; i++) {
-            robots.add(new CheetahRobot());
+            rndX = rnd.nextInt(Gameboard.GRID_SIZE - 1);
+            rndY = rnd.nextInt(Gameboard.GRID_SIZE - 1);
+            robots.add(new CheetahRobot(rndX, rndY));
         }
         for (int i = 0; i < numZe; i++) {
-            robots.add(new ZebraRobot());
+            rndX = rnd.nextInt(Gameboard.GRID_SIZE - 1);
+            rndY = rnd.nextInt(Gameboard.GRID_SIZE - 1);
+            robots.add(new ZebraRobot(rndX, rndY));
         }
 
         // the game loop
