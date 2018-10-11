@@ -82,10 +82,28 @@ public class ZebraRobot extends Robot {
 
                 }
             }
-            // controlling possible infinity loop
+            // a zebra never stands still
             else {
+
+                int rndAngle = rnd.nextInt(2);
+
+                switch (rndAngle) {
+                    case 0:
+                        angle -= Math.PI / 2;
+                        break;
+                    case 1:
+                        angle += Math.PI / 2;
+                        break;
+                }
+                if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
+                        && (this.getCoordY() + (int) Math.round(Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(Math.sin(angle)) < Gameboard.GRID_SIZE)) {
+
+                    setCoordX(this.getCoordX() + (int) Math.round(Math.cos(angle)));
+                    setCoordY(this.getCoordY() + (int) Math.round(Math.sin(angle)));
+                }
                 clear = true;
             }
+
         } while (!clear);
 
 
