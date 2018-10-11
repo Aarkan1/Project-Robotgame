@@ -50,7 +50,7 @@ public class CheetahRobot extends Robot {
 
                 if ((this.getCoordX() + rndX >= 0 && this.getCoordX() + rndX < Gameboard.GRID_SIZE)
                         && (this.getCoordY() + rndY >= 0 && this.getCoordY() + rndY < Gameboard.GRID_SIZE)) {
-                    if (board[this.getCoordY() + rndY][this.getCoordX() + rndX] != "C|") {
+                    if (!board[this.getCoordY() + rndY][this.getCoordX() + rndX].equals("C")) {
                         clear = true;
                     }
                 }

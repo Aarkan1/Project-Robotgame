@@ -79,7 +79,7 @@ public abstract class Robot implements IfMovement {
 
             if ((this.getCoordX() + rndX >= 0 && this.getCoordX() + rndX < Gameboard.GRID_SIZE)
                     && (this.getCoordY() + rndY >= 0 && this.getCoordY() + rndY < Gameboard.GRID_SIZE)) {
-                if (gameBoard[this.getCoordY() + rndY][this.getCoordX() + rndX] == " |") {
+                if (gameBoard[this.getCoordY() + rndY][this.getCoordX() + rndX].equals(" ")) {
                     clear = true;
                 }
             }
