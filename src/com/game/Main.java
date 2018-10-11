@@ -10,6 +10,5 @@ public class Main {
 
         g.gameloop(); // calls method from object g
 
-
     }
 }

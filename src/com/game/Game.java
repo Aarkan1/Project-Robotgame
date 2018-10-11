@@ -16,12 +16,14 @@ public class Game {
     // game loop that updates the output to screen
     public void gameloop() {
 
+        // variables for input and generating robots
         Scanner Scan = new Scanner(System.in);
         int numZe = 0, numGe = 0;
         String str = "";
         boolean inputNum = false;
         int rndX, rndY;
 
+        // controlled inputs with loops
         do {
             System.out.println("Input number of cheetahs: ");
             str = Scan.nextLine();
@@ -37,7 +39,7 @@ public class Game {
         inputNum = false;
 
         do {
-            System.out.println("Input number of zebras (must be more or equal than cheetahs) ");
+            System.out.println("Input number of zebras (must be more or equal to cheetahs) ");
             str = Scan.nextLine();
             if (str.matches("[1-9][0-9]*")) {
                 numZe = Integer.valueOf(str);
@@ -50,7 +52,7 @@ public class Game {
 
         // starts off with painting the grid
         Gameboard game = new Gameboard();
-        game.gameboard();
+        game.fillGameboard();
 
         // counter for enabling turnbased movement
         int loopClock = 1;
@@ -58,8 +60,8 @@ public class Game {
         // list containing all robots
         ArrayList<Robot> robots = new ArrayList<>();
 
-
         // fills lists with robot objects
+        // and give them random coordinates
         for (int i = 0; i < numGe; i++) {
             rndX = rnd.nextInt(Gameboard.GRID_SIZE - 1);
             rndY = rnd.nextInt(Gameboard.GRID_SIZE - 1);
@@ -70,6 +72,7 @@ public class Game {
             rndY = rnd.nextInt(Gameboard.GRID_SIZE - 1);
             robots.add(new ZebraRobot(rndY, rndX));
         }
+
 
         // the game loop
         // ends the game when no zebrarobot remains

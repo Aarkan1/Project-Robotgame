@@ -1,5 +1,6 @@
 package com.game;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 // subclass from robot
@@ -36,14 +37,18 @@ public class CheetahRobot extends Robot {
     }
 
     // move the robot when called
+    // check every step that the robot is inside the grid
+    // and check for collisions with other objects
     @Override
     public void doRun(String[][] board) {
 
+        // only moves when hungry
         if (fullness == 0) {
 
             int rndX, rndY;
             boolean clear = false;
 
+            // if obstacle, loop and moves another way
             do {
                 rndX = rnd.nextInt(3) - 1;
                 rndY = rnd.nextInt(3) - 1;
@@ -63,4 +68,21 @@ public class CheetahRobot extends Robot {
 
     }
 
+    // check every zebras position for collision
+    // if collision is true the cheetah eats the zebra
+    public void eatZebra(ArrayList<Robot> robots){
+
+        for (int i = 0; i < robots.size(); i++) {
+
+            if (robots.get(i) instanceof ZebraRobot) {
+                if ((this.getCoordX() == robots.get(i).getCoordX()) &&
+                        (this.getCoordY() == robots.get(i).getCoordY())) {
+                    robots.remove(i);
+
+                    // set fullness clock to 5 after dinner
+                    setFullness(5);
+                }
+            }
+        }
+    }
 }
