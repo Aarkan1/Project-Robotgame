@@ -24,16 +24,21 @@ public class ZebraRobot extends Robot {
     }
 
     // move the robot when called
+
+    // with trigonometry the robot gets a purpose
+    // instead of setting a random coordinate
+    // by dividing the opposite with the adjacent in trigonometry
+    // we get the trajectory to the object
     @Override
     public void doRun(String[][] board, ArrayList<Robot> robots) {
-//        super.doRun(board, robots);
-
 
         int dX, dY, dZ;
         int closeID = 0;
         int closest = (int) Math.round(Math.sqrt(2 * Gameboard.GRID_SIZE * Gameboard.GRID_SIZE));
         boolean clear = false;
 
+        // loops the list of robots for cheetah
+        // and search for the closest
         for (int i = 0; i < robots.size(); i++) {
             if (robots.get(i) instanceof CheetahRobot) {
                 dX = robots.get(i).getCoordX() - this.getCoordX();
@@ -46,13 +51,18 @@ public class ZebraRobot extends Robot {
                 }
             }
         }
+        // when the closest cheetah is found, we specify it from the list
+        // and gets the opposite and adjacent for getting trajectory
         dX = robots.get(closeID).getCoordX() - this.getCoordX();
         dY = robots.get(closeID).getCoordY() - this.getCoordY();
 
 
+        // the zebra wants to flee from the cheetah
+        // so we add 180 degrees to the trajectory
         double angle = Math.atan2(dY, dX) + Math.PI;
 
-
+        // checks for collision before moving
+        // if obstacle, move 90 degrees and try again
         do {
 
             if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
@@ -71,7 +81,9 @@ public class ZebraRobot extends Robot {
                     clear = true;
 
                 }
-            } else {
+            }
+            // controlling possible infinity loop
+            else {
                 clear = true;
             }
         } while (!clear);

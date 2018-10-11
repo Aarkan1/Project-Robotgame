@@ -16,19 +16,8 @@ public class Gameboard {
     private String cheetahTile = "C";
     private String zebraTile = "Z";
 
-
     // default constructor
     public Gameboard() {
-    }
-
-    // fills the gameboard with the defaultTile in a nestled for-loop
-    public void gameboard() {
-
-        for (int i = 0; i < gameboard.length; i++) {
-            for (int j = 0; j < gameboard.length; j++) {
-                gameboard[i][j] = defaultTile;
-            }
-        }
     }
 
     // makes every robot move, and replace the old tile with the defaultTile
@@ -52,21 +41,13 @@ public class Gameboard {
                 if (robots.get(i) instanceof ZebraRobot) {
                     gameboard[robots.get(i).getCoordY()][robots.get(i).getCoordX()] = zebraTile;
                 } else if (robots.get(i) instanceof CheetahRobot) {
-                    gameboard[robots.get(i).getCoordY()][robots.get(i).getCoordX()] = cheetahTile;
+                    // checks current cheetah if it stands on
+                    // same tile as a zebra
+                    if (gameboard[robots.get(i).getCoordY()][robots.get(i).getCoordX()].equals("Z")) {
 
-                    // loop checking collision between the cheetah and zebras
-                    // if collision is true, delete zebra
-                    // and make the cheetah wait 10 turns before it can hunt again
-                    for (int j = 0; j < robots.size(); j++) {
-                        if (robots.get(j) instanceof ZebraRobot) {
-                            if ((robots.get(i).getCoordX() == robots.get(j).getCoordX()) &&
-                                    (robots.get(i).getCoordY() == robots.get(j).getCoordY())) {
-                                robots.remove(j);
-
-                                robots.get(i).setFullness(10);
-                            }
-                        }
+                        ((CheetahRobot) robots.get(i)).eatZebra(robots);
                     }
+                    gameboard[robots.get(i).getCoordY()][robots.get(i).getCoordX()] = cheetahTile;
                 }
             }
         }
@@ -84,5 +65,15 @@ public class Gameboard {
         }
         System.out.println("---------------------------------------------------------------");
         System.out.println();
+    }
+
+    // fills the gameboard with the defaultTile in a nestled for-loop
+    public void fillGameboard() {
+
+        for (int i = 0; i < gameboard.length; i++) {
+            for (int j = 0; j < gameboard.length; j++) {
+                gameboard[i][j] = defaultTile;
+            }
+        }
     }
 }

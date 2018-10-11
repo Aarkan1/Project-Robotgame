@@ -14,6 +14,7 @@ public class Game {
     // game loop that updates the output to screen
     public void gameloop() {
 
+        // variables for input and generating robots
         Scanner Scan = new Scanner(System.in);
         int numZe = 0, numGe = 0;
         String str = "";
@@ -21,6 +22,7 @@ public class Game {
         Random rnd = new Random();
         int rndX, rndY;
 
+        // controlled inputs with loops
         do {
             System.out.println("Input number of cheetahs: ");
             str = Scan.nextLine();
@@ -36,7 +38,7 @@ public class Game {
         inputNum = false;
 
         do {
-            System.out.println("Input number of zebras (must be more or equal than cheetahs) ");
+            System.out.println("Input number of zebras (must be more or equal to cheetahs) ");
             str = Scan.nextLine();
             if (str.matches("[1-9][0-9]*")) {
                 numZe = Integer.valueOf(str);
@@ -49,7 +51,7 @@ public class Game {
 
         // starts off with painting the grid
         Gameboard game = new Gameboard();
-        game.gameboard();
+        game.fillGameboard();
 
         // counter for enabling turnbased movement
         int loopClock = 1;

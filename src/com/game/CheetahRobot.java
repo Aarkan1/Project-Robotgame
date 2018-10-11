@@ -37,6 +37,11 @@ public class CheetahRobot extends Robot {
     }
 
     // move the robot when called
+
+    // with trigonometry the robot gets a purpose
+    // instead of setting a random coordinate
+    // by dividing the opposite with the adjacent in trigonometry
+    // we get the trajectory to the object
     @Override
     public void doRun(String[][] board, ArrayList<Robot> robots) {
 
@@ -47,6 +52,8 @@ public class CheetahRobot extends Robot {
             int closest = (int) Math.round(Math.sqrt(2 * Gameboard.GRID_SIZE * (Gameboard.GRID_SIZE)));
             boolean clear = false;
 
+            // loops the list of robots for zebras
+            // and search for the closest
             for (int i = 0; i < robots.size(); i++) {
                 if (robots.get(i) instanceof ZebraRobot) {
                     dX = robots.get(i).getCoordX() - this.getCoordX();
@@ -59,13 +66,16 @@ public class CheetahRobot extends Robot {
                     }
                 }
             }
+            // when the closest zebra is found, we specify it from the list
+            // and gets the opposite and adjacent for getting trajectory
             dX = robots.get(closeID).getCoordX() - this.getCoordX();
             dY = robots.get(closeID).getCoordY() - this.getCoordY();
 
-
+            // get the trajectory to nearest zebra
             double angle = Math.atan2(dY, dX);
 
-
+            // checks for collision before moving
+            // if obstacle, move 90 degrees and try again
             do {
 
                 if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
@@ -83,10 +93,30 @@ public class CheetahRobot extends Robot {
                         clear = true;
 
                     }
-                } else {
+                }
+                // controlling possible infinity loop
+                else {
                     clear = true;
                 }
             } while (!clear);
+        }
+    }
+
+    // check every zebras position for collision
+    // if collision is true the cheetah eats the zebra
+    public void eatZebra(ArrayList<Robot> robots) {
+
+        for (int i = 0; i < robots.size(); i++) {
+
+            if (robots.get(i) instanceof ZebraRobot) {
+                if ((this.getCoordX() == robots.get(i).getCoordX()) &&
+                        (this.getCoordY() == robots.get(i).getCoordY())) {
+                    robots.remove(i);
+
+                    // set fullness clock to 5 after dinner
+                    setFullness(5);
+                }
+            }
         }
     }
 }
