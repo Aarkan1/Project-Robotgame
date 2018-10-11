@@ -58,9 +58,10 @@ public class ZebraRobot extends Robot {
             if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
                     && (this.getCoordY() + (int) Math.round(Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(Math.sin(angle)) < Gameboard.GRID_SIZE)) {
 
-                if (board[this.getCoordY() + (int) Math.round(Math.sin(angle))][this.getCoordX() + (int) Math.round(Math.cos(angle))] != " ") {
+                if (board[this.getCoordY() + (int) Math.round(Math.sin(angle))][this.getCoordX() + (int) Math.round(Math.cos(angle))].equals("Z")) {
 
                     angle += Math.PI / 2;
+
 
                 } else {
 

@@ -5,10 +5,6 @@ import java.util.ArrayList;
 // class for managing the objects in the game
 public class Gameboard {
 
-    // default constructor
-    public Gameboard() {
-    }
-
     // constant variable to easy access to grid size
     static final int GRID_SIZE = 30;
 
@@ -19,6 +15,11 @@ public class Gameboard {
     private String defaultTile = " ";
     private String cheetahTile = "C";
     private String zebraTile = "Z";
+
+
+    // default constructor
+    public Gameboard() {
+    }
 
     // fills the gameboard with the defaultTile in a nestled for-loop
     public void gameboard() {
@@ -39,20 +40,24 @@ public class Gameboard {
             // controlling what is moving when
             if (loopClock % robots.get(i).getSpeed().speed == 0) {
 
-                gameboard[robots.get(i).getCoordX()][robots.get(i).getCoordY()] = defaultTile;
+                gameboard[robots.get(i).getCoordY()][robots.get(i).getCoordX()] = defaultTile;
 
                 // may only move if nothing is in the way
                 robots.get(i).doRun(gameboard, robots);
 
+                // reduce fullness every turn, stops at 0
                 robots.get(i).setFullness(robots.get(i).getFullness() - 1);
 
+                // replace new position with corresponding tile
                 if (robots.get(i) instanceof ZebraRobot) {
-                    gameboard[robots.get(i).getCoordX()][robots.get(i).getCoordY()] = zebraTile;
+                    gameboard[robots.get(i).getCoordY()][robots.get(i).getCoordX()] = zebraTile;
                 } else if (robots.get(i) instanceof CheetahRobot) {
-                    gameboard[robots.get(i).getCoordX()][robots.get(i).getCoordY()] = cheetahTile;
+                    gameboard[robots.get(i).getCoordY()][robots.get(i).getCoordX()] = cheetahTile;
 
+                    // loop checking collision between the cheetah and zebras
+                    // if collision is true, delete zebra
+                    // and make the cheetah wait 10 turns before it can hunt again
                     for (int j = 0; j < robots.size(); j++) {
-
                         if (robots.get(j) instanceof ZebraRobot) {
                             if ((robots.get(i).getCoordX() == robots.get(j).getCoordX()) &&
                                     (robots.get(i).getCoordY() == robots.get(j).getCoordY())) {

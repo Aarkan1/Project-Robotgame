@@ -78,12 +78,13 @@ public abstract class Robot implements IfMovement {
             double angle = rnd.nextInt(4) * (Math.PI / 2);
 
 
-            if ((this.getCoordX() + (int) Math.round(1 * Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(1 * Math.cos(angle)) < Gameboard.GRID_SIZE)
-                    && (this.getCoordY() + (int) Math.round(1 * Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(1 * Math.sin(angle)) < Gameboard.GRID_SIZE)) {
-                if (gameBoard[this.getCoordY() + (int) Math.round(1 * Math.sin(angle))][this.getCoordX() + (int) Math.round(1 * Math.cos(angle))] == " ") {
+            if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
+                    && (this.getCoordY() + (int) Math.round(Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(Math.sin(angle)) < Gameboard.GRID_SIZE)) {
 
-                    setCoordX(this.getCoordX() + (int) Math.round(1 * Math.cos(angle)));
-                    setCoordY(this.getCoordY() + (int) Math.round(1 * Math.sin(angle)));
+                if (gameBoard[this.getCoordY() + (int) Math.round(Math.sin(angle))][this.getCoordX() + (int) Math.round(Math.cos(angle))].equals(" ")) {
+
+                    setCoordX(this.getCoordX() + (int) Math.round(Math.cos(angle)));
+                    setCoordY(this.getCoordY() + (int) Math.round(Math.sin(angle)));
                     clear = true;
                 }
             }

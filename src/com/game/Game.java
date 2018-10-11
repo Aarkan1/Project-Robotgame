@@ -63,12 +63,12 @@ public class Game {
         for (int i = 0; i < numGe; i++) {
             rndX = rnd.nextInt(Gameboard.GRID_SIZE - 1);
             rndY = rnd.nextInt(Gameboard.GRID_SIZE - 1);
-            robots.add(new CheetahRobot(rndX, rndY));
+            robots.add(new CheetahRobot(rndY, rndX));
         }
         for (int i = 0; i < numZe; i++) {
             rndX = rnd.nextInt(Gameboard.GRID_SIZE - 1);
             rndY = rnd.nextInt(Gameboard.GRID_SIZE - 1);
-            robots.add(new ZebraRobot(rndX, rndY));
+            robots.add(new ZebraRobot(rndY, rndX));
         }
 
         // the game loop
