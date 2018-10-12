@@ -36,6 +36,7 @@ public class ZebraRobot extends Robot {
         int closeID = 0;
         int closest = (int) Math.round(Math.sqrt(2 * Gameboard.GRID_SIZE * Gameboard.GRID_SIZE));
         boolean clear = false;
+        int cosX, sinY;
 
         // loops the list of robots for cheetah
         // and search for the closest
@@ -65,18 +66,20 @@ public class ZebraRobot extends Robot {
         // if obstacle, move 90 degrees and try again
         do {
 
-            if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
-                    && (this.getCoordY() + (int) Math.round(Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(Math.sin(angle)) < Gameboard.GRID_SIZE)) {
+            sinY = this.getCoordY() + (int) Math.round(Math.sin(angle));
+            cosX = this.getCoordX() + (int) Math.round(Math.cos(angle));
 
-                if (board[this.getCoordY() + (int) Math.round(Math.sin(angle))][this.getCoordX() + (int) Math.round(Math.cos(angle))].equals("Z")) {
+            if (cosX >= 0 && cosX < Gameboard.GRID_SIZE && sinY >= 0 && sinY < Gameboard.GRID_SIZE) {
+
+                if (board[sinY][cosX].equals("Z")) {
 
                     angle += Math.PI / 2;
 
 
                 } else {
 
-                    setCoordX(this.getCoordX() + (int) Math.round(Math.cos(angle)));
-                    setCoordY(this.getCoordY() + (int) Math.round(Math.sin(angle)));
+                    setCoordX(cosX);
+                    setCoordY(sinY);
 
                     clear = true;
 
@@ -95,13 +98,22 @@ public class ZebraRobot extends Robot {
                         angle += Math.PI / 2;
                         break;
                 }
-                if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
-                        && (this.getCoordY() + (int) Math.round(Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(Math.sin(angle)) < Gameboard.GRID_SIZE)) {
 
-                    setCoordX(this.getCoordX() + (int) Math.round(Math.cos(angle)));
-                    setCoordY(this.getCoordY() + (int) Math.round(Math.sin(angle)));
+                sinY = this.getCoordY() + (int) Math.round(Math.sin(angle));
+                cosX = this.getCoordX() + (int) Math.round(Math.cos(angle));
+
+                if ((cosX >= 0 && cosX < Gameboard.GRID_SIZE) && (sinY >= 0 && sinY < Gameboard.GRID_SIZE) && board[sinY][cosX].equals("Z")) {
+
+                    clear = true;
+                } else {
+
+                    if ((cosX >= 0 && cosX < Gameboard.GRID_SIZE) && (sinY >= 0 && sinY < Gameboard.GRID_SIZE)) {
+
+                        setCoordX(cosX);
+                        setCoordY(sinY);
+                    }
+                    clear = true;
                 }
-                clear = true;
             }
 
         } while (!clear);

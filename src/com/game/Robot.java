@@ -72,19 +72,21 @@ public abstract class Robot implements IfMovement {
     public void doRun(String[][] gameBoard, ArrayList<Robot> robots) {
 
         boolean clear = false;
+        int cosX, sinY;
 
         do {
 
             double angle = rnd.nextInt(4) * (Math.PI / 2);
 
+            sinY = this.getCoordY() + (int) Math.round(Math.sin(angle));
+            cosX = this.getCoordX() + (int) Math.round(Math.cos(angle));
 
-            if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
-                    && (this.getCoordY() + (int) Math.round(Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(Math.sin(angle)) < Gameboard.GRID_SIZE)) {
+            if (cosX >= 0 && cosX < Gameboard.GRID_SIZE && sinY >= 0 && sinY < Gameboard.GRID_SIZE) {
 
-                if (gameBoard[this.getCoordY() + (int) Math.round(Math.sin(angle))][this.getCoordX() + (int) Math.round(Math.cos(angle))].equals(" ")) {
+                if (gameBoard[sinY][cosX].equals(" ")) {
 
-                    setCoordX(this.getCoordX() + (int) Math.round(Math.cos(angle)));
-                    setCoordY(this.getCoordY() + (int) Math.round(Math.sin(angle)));
+                    setCoordX(cosX);
+                    setCoordY(sinY);
                     clear = true;
                 }
             }

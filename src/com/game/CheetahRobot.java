@@ -51,6 +51,7 @@ public class CheetahRobot extends Robot {
             int closeID = 0;
             int closest = (int) Math.round(Math.sqrt(2 * Gameboard.GRID_SIZE * (Gameboard.GRID_SIZE)));
             boolean clear = false;
+            int sinY, cosX;
 
             // loops the list of robots for zebras
             // and search for the closest
@@ -78,17 +79,20 @@ public class CheetahRobot extends Robot {
             // if obstacle, move 90 degrees and try again
             do {
 
-                if ((this.getCoordX() + (int) Math.round(Math.cos(angle)) >= 0 && this.getCoordX() + (int) Math.round(Math.cos(angle)) < Gameboard.GRID_SIZE)
-                        && (this.getCoordY() + (int) Math.round(Math.sin(angle)) >= 0 && this.getCoordY() + (int) Math.round(Math.sin(angle)) < Gameboard.GRID_SIZE)) {
+                sinY = this.getCoordY() + (int) Math.round(Math.sin(angle));
+                cosX = this.getCoordX() + (int) Math.round(Math.cos(angle));
 
-                    if (board[this.getCoordY() + (int) Math.round(Math.sin(angle))][this.getCoordX() + (int) Math.round(Math.cos(angle))].equals("C")) {
+                if ((cosX >= 0 && cosX < Gameboard.GRID_SIZE)
+                        && (sinY >= 0 && sinY < Gameboard.GRID_SIZE)) {
+
+                    if (board[sinY][cosX].equals("C")) {
 
                         angle += Math.PI / 2;
 
                     } else {
 
-                        setCoordX(this.getCoordX() + (int) Math.round(Math.cos(angle)));
-                        setCoordY(this.getCoordY() + (int) Math.round(Math.sin(angle)));
+                        setCoordX(cosX);
+                        setCoordY(sinY);
 
                         clear = true;
 
