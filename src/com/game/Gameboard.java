@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Gameboard {
 
     // constant variable to easy access to grid size
-    static final int GRID_SIZE = 30;
+    static final int GRID_SIZE = 20;
 
     // the gameboard is a 2d String array
     private String[][] gameboard = new String[GRID_SIZE][GRID_SIZE];
@@ -15,6 +15,9 @@ public class Gameboard {
     private String defaultTile = " ";
     private String cheetahTile = "C";
     private String zebraTile = "Z";
+
+    public static final String YELLOW = "\033[0;33m";
+    public static final String RESET = "\033[0m";
 
     // default constructor
     public Gameboard() {
@@ -55,15 +58,26 @@ public class Gameboard {
 
     // nestled for-loop for printing the gameboard in the terminal
     public void printBoard() {
-        System.out.println("---------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------");
         for (int i = 0; i < gameboard.length; i++) {
             System.out.print("|");
             for (int j = 0; j < gameboard.length; j++) {
-                System.out.printf(" %s", gameboard[i][j]);
+                switch (gameboard[i][j]) {
+                    case " ":
+                        System.out.printf("\t%s", defaultTile);
+                        break;
+                    case "C":
+                        System.out.printf("\t%s%s%s", YELLOW,"\uD83D\uDC06", RESET);
+                        break;
+                    case "Z":
+                        System.out.printf("\t%s", "\uD83D\uDC0E");
+                        break;
+                }
             }
-            System.out.println(" |");
+            System.out.printf("\t%s\n", "|");
+            System.out.printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t%s\n", "|");
         }
-        System.out.println("---------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------");
         System.out.println();
     }
 
