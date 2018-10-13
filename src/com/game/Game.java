@@ -89,9 +89,6 @@ public class Game {
             // sends the lists with the counter for movement
             game.moveRobot(robots, loopClock);
 
-            // prints out the game
-//            game.printBoard();
-
             // controls the speed of the game
             // else it'll be over in an instant
             try {

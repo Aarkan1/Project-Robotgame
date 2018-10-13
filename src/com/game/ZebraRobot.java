@@ -33,18 +33,16 @@ public class ZebraRobot extends Robot {
     @Override
     public void doRun(int[][] board, ArrayList<Robot> robots) {
 
-        try {
-            robots.get(closeID);
-        } catch (Exception e) {
-            closeID = 0;
-        }
-
         int dX, dY, dZ;
         int closest = (int) Math.round(Math.sqrt(2 * Gameboard.GRID_SIZE * Gameboard.GRID_SIZE));
         boolean clear = false;
         int cosX, sinY;
 
         closeID = findClosest(robots, 0, closest);
+
+        if (closeID >= robots.size()){
+            closeID = 0;
+        }
 
         // when the closest zebra is found, we specify it from the list
         // and gets the opposite and adjacent for getting trajectory

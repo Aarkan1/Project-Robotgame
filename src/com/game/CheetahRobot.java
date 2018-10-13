@@ -46,13 +46,6 @@ public class CheetahRobot extends Robot {
     @Override
     public void doRun(int[][] board, ArrayList<Robot> robots) {
 
-        try {
-            robots.get(closeID);
-        } catch (Exception e) {
-            closeID = 0;
-        }
-
-
         if (fullness == 0) {
 
             int dX, dY, dZ;
@@ -61,6 +54,10 @@ public class CheetahRobot extends Robot {
             int sinY, cosX;
 
             closeID = findClosest(robots, 0, closest);
+
+            if (closeID >= robots.size()){
+                closeID = 0;
+            }
 
             // when the closest zebra is found, we specify it from the list
             // and gets the opposite and adjacent for getting trajectory
