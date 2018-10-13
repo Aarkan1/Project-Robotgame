@@ -69,7 +69,7 @@ public abstract class Robot implements IfMovement {
     // checks every step so the robot can't go out of bounds of the grid
     // checks if it's a default tile, else it goes another way
     @Override
-    public void doRun(String[][] gameBoard, ArrayList<Robot> robots) {
+    public void doRun(int[][] gameBoard, ArrayList<Robot> robots) {
 
         boolean clear = false;
         int cosX, sinY;
@@ -83,7 +83,7 @@ public abstract class Robot implements IfMovement {
 
             if (cosX >= 0 && cosX < Gameboard.GRID_SIZE && sinY >= 0 && sinY < Gameboard.GRID_SIZE) {
 
-                if (gameBoard[sinY][cosX].equals(" ")) {
+                if (gameBoard[sinY][cosX] == 0) {
 
                     setCoordX(cosX);
                     setCoordY(sinY);

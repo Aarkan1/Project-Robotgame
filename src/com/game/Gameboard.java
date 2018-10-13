@@ -1,20 +1,23 @@
 package com.game;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 // class for managing the objects in the game
-public class Gameboard {
+public class Gameboard extends JPanel{
 
     // constant variable to easy access to grid size
     static final int GRID_SIZE = 20;
 
     // the gameboard is a 2d String array
-    private String[][] gameboard = new String[GRID_SIZE][GRID_SIZE];
+    private int[][] gameboard = new int[GRID_SIZE][GRID_SIZE];
+    private JFrame frame;
 
     // the tiles in String
-    private String defaultTile = " ";
-    private String cheetahTile = "C";
-    private String zebraTile = "Z";
+    private int defaultTile = 0;
+    private int cheetahTile = 1;
+    private int zebraTile = 2;
 
     public static final String YELLOW = "\033[0;33m";
     public static final String RESET = "\033[0m";
@@ -46,7 +49,7 @@ public class Gameboard {
                 } else if (robots.get(i) instanceof CheetahRobot) {
                     // checks current cheetah if it stands on
                     // same tile as a zebra
-                    if (gameboard[robots.get(i).getCoordY()][robots.get(i).getCoordX()].equals("Z")) {
+                    if (gameboard[robots.get(i).getCoordY()][robots.get(i).getCoordX()] == 2) {
 
                         ((CheetahRobot) robots.get(i)).eatZebra(robots);
                     }
@@ -54,40 +57,44 @@ public class Gameboard {
                 }
             }
         }
+        frame.getContentPane().repaint();
     }
 
-    // nestled for-loop for printing the gameboard in the terminal
-    public void printBoard() {
-        System.out.println("-----------------------------------------------------------------------------------");
+    public void gameBoard() { // Creates the window
+        frame = new JFrame("Cheetahs vs Zebras");
+        frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+        frame.setSize(1015, 1040);
+        frame.setLocationRelativeTo(null);
+        frame.getContentPane().add(this);
+        frame.setVisible(true);
+    }
+
+    public void paintComponent(Graphics g) {
+        //draw on g here e.g.
+        super.paintComponent(g);
+        ImageIcon cheetahIcon = new ImageIcon(this.getClass()
+                .getResource("cheetah50.png"));
+        ImageIcon zebraIcon = new ImageIcon(this.getClass()
+                .getResource("zebra50.png"));
+        ImageIcon defaultTile = new ImageIcon(this.getClass()
+                .getResource("default50.png"));
+
+
         for (int i = 0; i < gameboard.length; i++) {
-            System.out.print("|");
             for (int j = 0; j < gameboard.length; j++) {
                 switch (gameboard[i][j]) {
-                    case " ":
-                        System.out.printf("\t%s", defaultTile);
+                    case 0:
+                        defaultTile.paintIcon(this, g,j * 50 , i * 50);
                         break;
-                    case "C":
-                        System.out.printf("\t%s%s%s", YELLOW,"\uD83D\uDC06", RESET);
+                    case 1:
+                        cheetahIcon.paintIcon(this, g, j * 50, i * 50);
                         break;
-                    case "Z":
-                        System.out.printf("\t%s", "\uD83D\uDC0E");
+                    case 2:
+                        zebraIcon.paintIcon(this, g, j * 50, i * 50);
                         break;
                 }
             }
-            System.out.printf("\t%s\n", "|");
-            System.out.printf("|\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t%s\n", "|");
-        }
-        System.out.println("-----------------------------------------------------------------------------------");
-        System.out.println();
-    }
-
-    // fills the gameboard with the defaultTile in a nestled for-loop
-    public void fillGameboard() {
-
-        for (int i = 0; i < gameboard.length; i++) {
-            for (int j = 0; j < gameboard.length; j++) {
-                gameboard[i][j] = defaultTile;
-            }
         }
     }
+
 }

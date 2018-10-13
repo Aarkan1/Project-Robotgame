@@ -14,6 +14,10 @@ public class Game {
     // game loop that updates the output to screen
     public void gameloop() {
 
+        // starts off with painting the grid
+        Gameboard game = new Gameboard();
+        game.gameBoard();
+
         // variables for input and generating robots
         Scanner Scan = new Scanner(System.in);
         int numZe = 0, numGe = 0;
@@ -21,6 +25,8 @@ public class Game {
         boolean inputNum = false;
         Random rnd = new Random();
         int rndX, rndY;
+
+        /*
 
         // controlled inputs with loops
         do {
@@ -49,9 +55,8 @@ public class Game {
 
         } while ((inputNum == false) || (numZe < numGe));
 
-        // starts off with painting the grid
-        Gameboard game = new Gameboard();
-        game.fillGameboard();
+
+*/
 
         // counter for enabling turnbased movement
         int loopClock = 1;
@@ -62,12 +67,12 @@ public class Game {
 
         // fills list with robot objects
         // and place them randomly on the grid
-        for (int i = 0; i < numGe; i++) {
+        for (int i = 0; i < 4; i++) {
             rndX = rnd.nextInt(Gameboard.GRID_SIZE - 1);
             rndY = rnd.nextInt(Gameboard.GRID_SIZE - 1);
             robots.add(new CheetahRobot(rndY, rndX));
         }
-        for (int i = 0; i < numZe; i++) {
+        for (int i = 0; i < 15; i++) {
             rndX = rnd.nextInt(Gameboard.GRID_SIZE - 1);
             rndY = rnd.nextInt(Gameboard.GRID_SIZE - 1);
             robots.add(new ZebraRobot(rndY, rndX));
@@ -76,7 +81,7 @@ public class Game {
         // the game loop
         // ends the game when no zebrarobot remains
         // whenever a cheetah make contact with a zebra, it consumes it
-        while (robots.size() - numGe != 0) {
+        while (robots.size() - 4 != 0) {
 
             // increments the counter
             loopClock++;
@@ -85,7 +90,7 @@ public class Game {
             game.moveRobot(robots, loopClock);
 
             // prints out the game
-            game.printBoard();
+//            game.printBoard();
 
             // controls the speed of the game
             // else it'll be over in an instant

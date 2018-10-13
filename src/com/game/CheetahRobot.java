@@ -8,6 +8,7 @@ public class CheetahRobot extends Robot {
 
     private int fullness;
     private Random rnd = new Random();
+    private int closeID;
 
     // default constructor
     // places the robot on the lower right tile
@@ -43,30 +44,24 @@ public class CheetahRobot extends Robot {
     // by dividing the opposite with the adjacent in trigonometry
     // we get the trajectory to the object
     @Override
-    public void doRun(String[][] board, ArrayList<Robot> robots) {
+    public void doRun(int[][] board, ArrayList<Robot> robots) {
+
+        try {
+            robots.get(closeID);
+        } catch (Exception e) {
+            closeID = 0;
+        }
+
 
         if (fullness == 0) {
 
             int dX, dY, dZ;
-            int closeID = 0;
             int closest = (int) Math.round(Math.sqrt(2 * Gameboard.GRID_SIZE * (Gameboard.GRID_SIZE)));
             boolean clear = false;
             int sinY, cosX;
 
-            // loops the list of robots for zebras
-            // and search for the closest
-            for (int i = 0; i < robots.size(); i++) {
-                if (robots.get(i) instanceof ZebraRobot) {
-                    dX = robots.get(i).getCoordX() - this.getCoordX();
-                    dY = robots.get(i).getCoordY() - this.getCoordY();
-                    dZ = (int) Math.round(Math.sqrt((dX * dX) + (dY * dY)));
+            closeID = findClosest(robots, 0, closest);
 
-                    if (dZ < closest) {
-                        closest = dZ;
-                        closeID = i;
-                    }
-                }
-            }
             // when the closest zebra is found, we specify it from the list
             // and gets the opposite and adjacent for getting trajectory
             dX = robots.get(closeID).getCoordX() - this.getCoordX();
@@ -85,7 +80,7 @@ public class CheetahRobot extends Robot {
                 if ((cosX >= 0 && cosX < Gameboard.GRID_SIZE)
                         && (sinY >= 0 && sinY < Gameboard.GRID_SIZE)) {
 
-                    if (board[sinY][cosX].equals("C")) {
+                    if (board[sinY][cosX] == 1) {
 
                         angle += Math.PI / 2;
 
@@ -105,6 +100,38 @@ public class CheetahRobot extends Robot {
             } while (!clear);
         }
     }
+
+    public int findClosest(ArrayList<Robot> robots, int i, int closest) {
+        int dX, dY, dZ;
+
+        if (i == robots.size()) {
+
+                return closeID;
+
+        }
+        // loops the list of robots for zebras
+        // and search for the closest
+        else if (robots.get(i) instanceof ZebraRobot) {
+
+            dX = robots.get(i).getCoordX() - this.getCoordX();
+            dY = robots.get(i).getCoordY() - this.getCoordY();
+            dZ = (int) Math.round(Math.sqrt((dX * dX) + (dY * dY)));
+
+            if (dZ < closest) {
+                closest = dZ;
+                closeID = i;
+            }
+        }
+
+        if (i < robots.size()) {
+
+            findClosest(robots, i + 1, closest);
+
+        }
+
+        return closeID;
+    }
+
 
     // check every zebras position for collision
     // if collision is true the cheetah eats the zebra
