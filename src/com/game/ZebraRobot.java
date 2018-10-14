@@ -34,7 +34,7 @@ public class ZebraRobot extends Robot {
     public void doRun(int[][] board, ArrayList<Robot> robots) {
 
         int dX, dY, dZ;
-        int closest = (int) Math.round(Math.sqrt(2 * Gameboard.GRID_SIZE * Gameboard.GRID_SIZE));
+        int closest = (int) Math.round(Math.sqrt(2 * Math.pow(Gameboard.GRID_SIZE, 2)));
         boolean clear = false;
         int cosX, sinY;
 
@@ -48,7 +48,6 @@ public class ZebraRobot extends Robot {
         // and gets the opposite and adjacent for getting trajectory
         dX = robots.get(closeID).getCoordX() - this.getCoordX();
         dY = robots.get(closeID).getCoordY() - this.getCoordY();
-
 
         // the zebra wants to flee from the cheetah
         // so we add 180 degrees to the trajectory
@@ -67,14 +66,12 @@ public class ZebraRobot extends Robot {
 
                     angle += Math.PI / 2;
 
-
                 } else {
 
                     setCoordX(cosX);
                     setCoordY(sinY);
 
                     clear = true;
-
                 }
             }
             // a zebra never stands still
@@ -107,19 +104,14 @@ public class ZebraRobot extends Robot {
                     clear = true;
                 }
             }
-
         } while (!clear);
-
-
     }
 
     public int findClosest(ArrayList<Robot> robots, int i, int closest) {
         int dX, dY, dZ;
 
         if (i == robots.size()) {
-
             return closeID;
-
         }
         // loops the list of robots for cheetahs
         // and search for the closest
@@ -127,20 +119,17 @@ public class ZebraRobot extends Robot {
 
             dX = robots.get(i).getCoordX() - this.getCoordX();
             dY = robots.get(i).getCoordY() - this.getCoordY();
-            dZ = (int) Math.round(Math.sqrt((dX * dX) + (dY * dY)));
+            dZ = (int) Math.round(Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2)));
 
             if (dZ < closest) {
                 closest = dZ;
                 closeID = i;
             }
         }
-
         if (i < robots.size()) {
 
             findClosest(robots, i + 1, closest);
-
         }
-
         return closeID;
     }
 

@@ -49,13 +49,13 @@ public class CheetahRobot extends Robot {
         if (fullness == 0) {
 
             int dX, dY, dZ;
-            int closest = (int) Math.round(Math.sqrt(2 * Gameboard.GRID_SIZE * (Gameboard.GRID_SIZE)));
+            int closest = (int) Math.round(Math.sqrt(2 * Math.pow(Gameboard.GRID_SIZE, 2)));
             boolean clear = false;
             int sinY, cosX;
 
             closeID = findClosest(robots, 0, closest);
 
-            if (closeID >= robots.size()){
+            if (closeID >= robots.size()) {
                 closeID = 0;
             }
 
@@ -87,7 +87,6 @@ public class CheetahRobot extends Robot {
                         setCoordY(sinY);
 
                         clear = true;
-
                     }
                 }
                 // controlling possible infinity loop
@@ -102,9 +101,7 @@ public class CheetahRobot extends Robot {
         int dX, dY, dZ;
 
         if (i == robots.size()) {
-
-                return closeID;
-
+            return closeID;
         }
         // loops the list of robots for zebras
         // and search for the closest
@@ -112,23 +109,19 @@ public class CheetahRobot extends Robot {
 
             dX = robots.get(i).getCoordX() - this.getCoordX();
             dY = robots.get(i).getCoordY() - this.getCoordY();
-            dZ = (int) Math.round(Math.sqrt((dX * dX) + (dY * dY)));
+            dZ = (int) Math.round(Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2)));
 
             if (dZ < closest) {
                 closest = dZ;
                 closeID = i;
             }
         }
-
         if (i < robots.size()) {
 
             findClosest(robots, i + 1, closest);
-
         }
-
         return closeID;
     }
-
 
     // check every zebras position for collision
     // if collision is true the cheetah eats the zebra
