@@ -9,6 +9,7 @@ public class CheetahRobot extends Robot {
     private int fullness;
     private Random rnd = new Random();
     private int closeID;
+    private Hunt hunt;
 
     // default constructor
     // places the robot on the lower right tile
@@ -16,7 +17,7 @@ public class CheetahRobot extends Robot {
     public CheetahRobot() {
         super(Gameboard.GRID_SIZE - 1, Gameboard.GRID_SIZE - 1);
         setSpeed(Speed.FAST);
-        fullness = 0;
+        setHunt(Hunt.HUNTING);
     }
 
     // constructor for custom placement of the robot
@@ -24,16 +25,27 @@ public class CheetahRobot extends Robot {
     public CheetahRobot(int coordX, int coordY) {
         super(coordX, coordY);
         setSpeed(Speed.FAST);
-        fullness = 0;
+        setHunt(Hunt.HUNTING);
     }
 
-    public int getFullness() {
-        return fullness;
+    public Hunt getHunt() {
+        return hunt;
     }
 
-    public void setFullness(int fullness) {
-        if (fullness >= 0) {
-            this.fullness = fullness;
+    public void setHunt(Hunt hunt) {
+        this.hunt = hunt;
+    }
+
+    @Override
+    public int getTile() {
+
+        if (getHunt() == Hunt.RETURN_PRAY) {
+
+            return 4;
+
+        } else {
+
+            return 1;
         }
     }
 
@@ -44,14 +56,21 @@ public class CheetahRobot extends Robot {
     // by dividing the opposite with the adjacent in trigonometry
     // we get the trajectory to the object
     @Override
-    public void doRun(int[][] board, ArrayList<Robot> robots) {
+    public void doRun(int[][] board, ArrayList<Robot> robots, ArrayList<Item> items) {
 
-        if (fullness == 0) {
 
-            int dX, dY, dZ;
-            int closest = (int) Math.round(Math.sqrt(2 * Math.pow(Gameboard.GRID_SIZE, 2)));
-            boolean clear = false;
-            int sinY, cosX;
+        int dX, dY, dZ;
+        int closest = (int) Math.round(Math.sqrt(2 * Math.pow(Gameboard.GRID_SIZE, 2)));
+        boolean clear = false;
+        int sinY, cosX;
+
+
+        if (getHunt() == Hunt.RETURN_PRAY) {
+
+            dX = items.get(0).getCoordX() - this.getCoordX();
+            dY = items.get(0).getCoordY() - this.getCoordY();
+
+        } else {
 
             closeID = findClosest(robots, 0, closest);
 
@@ -63,38 +82,40 @@ public class CheetahRobot extends Robot {
             // and gets the opposite and adjacent for getting trajectory
             dX = robots.get(closeID).getCoordX() - this.getCoordX();
             dY = robots.get(closeID).getCoordY() - this.getCoordY();
+        }
 
-            // get the trajectory to nearest zebra
-            double angle = Math.atan2(dY, dX);
 
-            // checks for collision before moving
-            // if obstacle, move 90 degrees and try again
-            do {
+        // get the trajectory to nearest zebra
+        double angle = Math.atan2(dY, dX);
 
-                sinY = this.getCoordY() + (int) Math.round(Math.sin(angle));
-                cosX = this.getCoordX() + (int) Math.round(Math.cos(angle));
+        // checks for collision before moving
+        // if obstacle, move 90 degrees and try again
+        do {
 
-                if ((cosX >= 0 && cosX < Gameboard.GRID_SIZE)
-                        && (sinY >= 0 && sinY < Gameboard.GRID_SIZE)) {
+            sinY = this.getCoordY() + (int) Math.round(Math.sin(angle));
+            cosX = this.getCoordX() + (int) Math.round(Math.cos(angle));
 
-                    if (board[sinY][cosX] == 1) {
+            if ((cosX >= 0 && cosX < Gameboard.GRID_SIZE)
+                    && (sinY >= 0 && sinY < Gameboard.GRID_SIZE)) {
 
-                        angle += Math.PI / 2;
+                if (board[sinY][cosX] == 1 || board[sinY][cosX] == 4 || board[sinY][cosX] == 5) {
 
-                    } else {
+                    angle += Math.PI / 2;
 
-                        setCoordX(cosX);
-                        setCoordY(sinY);
+                } else {
 
-                        clear = true;
-                    }
-                }
-                // controlling possible infinity loop
-                else {
+                    setCoordX(cosX);
+                    setCoordY(sinY);
+
                     clear = true;
                 }
-            } while (!clear);
-        }
+            }
+            // controlling possible infinity loop
+            else {
+                clear = true;
+            }
+        } while (!clear);
+
     }
 
     public int findClosest(ArrayList<Robot> robots, int i, int closest) {
@@ -135,7 +156,7 @@ public class CheetahRobot extends Robot {
                     robots.remove(i);
 
                     // set fullness clock to 5 after dinner
-                    setFullness(5);
+                    setHunt(Hunt.RETURN_PRAY);
                 }
             }
         }

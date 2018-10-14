@@ -23,6 +23,10 @@ public class ZebraRobot extends Robot {
         super(coordX, coordY);
         setSpeed(Speed.SLOW);
     }
+    @Override
+    public int getTile(){
+        return 2;
+    }
 
     // move the robot when called
 
@@ -31,7 +35,7 @@ public class ZebraRobot extends Robot {
     // by dividing the opposite with the adjacent in trigonometry
     // we get the trajectory to the object
     @Override
-    public void doRun(int[][] board, ArrayList<Robot> robots) {
+    public void doRun(int[][] board, ArrayList<Robot> robots,ArrayList<Item> items) {
 
         int dX, dY, dZ;
         int closest = (int) Math.round(Math.sqrt(2 * Math.pow(Gameboard.GRID_SIZE, 2)));
@@ -62,7 +66,7 @@ public class ZebraRobot extends Robot {
 
             if (cosX >= 0 && cosX < Gameboard.GRID_SIZE && sinY >= 0 && sinY < Gameboard.GRID_SIZE) {
 
-                if (board[sinY][cosX] == 2) {
+                if (board[sinY][cosX] != 0) {
 
                     angle += Math.PI / 2;
 

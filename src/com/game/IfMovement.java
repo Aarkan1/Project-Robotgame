@@ -6,6 +6,6 @@ import java.util.ArrayList;
 public interface IfMovement {
 
     // movement methods
-    public void doRun(int[][] board, ArrayList<Robot> robots);
+    public void doRun(int[][] board, ArrayList<Robot> robots, ArrayList<Item> items);
 
 }

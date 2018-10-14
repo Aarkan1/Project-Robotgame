@@ -14,9 +14,6 @@ public class Game {
     // game loop that updates the output to screen
     public void gameloop() {
 
-        // starts off with painting the grid
-        Gameboard game = new Gameboard();
-        game.gameBoard();
 
         // variables for input and generating robots
         Scanner Scan = new Scanner(System.in);
@@ -25,6 +22,7 @@ public class Game {
         boolean inputNum = false;
         Random rnd = new Random();
         int rndX, rndY;
+        boolean running = true;
 
         /*
 
@@ -61,9 +59,9 @@ public class Game {
         // counter for enabling turnbased movement
         int loopClock = 1;
 
-        // list containing all robots
+        // lists containing objects
         ArrayList<Robot> robots = new ArrayList<>();
-
+        ArrayList<Item> items = new ArrayList<>();
 
         // fills list with robot objects
         // and place them randomly on the grid
@@ -78,16 +76,29 @@ public class Game {
             robots.add(new ZebraRobot(rndY, rndX));
         }
 
+        // adds home tree to itemslist
+        items.add(new Tree());
+        items.add(new Stone(2,3, true));
+        items.add(new Stone(3,Gameboard.GRID_SIZE - 4, true));
+        items.add(new Stone(Gameboard.GRID_SIZE - 3, 9, true));
+        items.add(new Stone(Gameboard.GRID_SIZE - 4, 4, true));
+
+
+        // starts off with painting the grid
+        Gameboard game = new Gameboard(items);
+        game.gameBoard();
+
+
         // the game loop
         // ends the game when no zebrarobot remains
         // whenever a cheetah make contact with a zebra, it consumes it
-        while (robots.size() - 4 != 0) {
+        while (running) {
 
             // increments the counter
             loopClock++;
 
             // sends the lists with the counter for movement
-            game.moveRobot(robots, loopClock);
+            running = game.moveRobot(robots, loopClock);
 
             // controls the speed of the game
             // else it'll be over in an instant

@@ -64,12 +64,16 @@ public abstract class Robot implements IfMovement {
         this.speed = speed;
     }
 
+    public int getTile(){
+        return 3;
+    }
+
     // function from the interface
     // when called, makes the robot move 1 step in a random direction
     // checks every step so the robot can't go out of bounds of the grid
     // checks if it's a default tile, else it goes another way
     @Override
-    public void doRun(int[][] gameBoard, ArrayList<Robot> robots) {
+    public void doRun(int[][] gameBoard, ArrayList<Robot> robots, ArrayList<Item> items) {
 
         boolean clear = false;
         int cosX, sinY;
