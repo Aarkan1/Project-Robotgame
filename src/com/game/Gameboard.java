@@ -8,7 +8,10 @@ import java.util.ArrayList;
 public class Gameboard extends JPanel{
 
     // constant variable to easy access to grid size
-    static final int GRID_SIZE = 20;
+    static final int GRID_SIZE = 17;
+
+    final int WIDTH = GRID_SIZE * 50 + 14;
+    final int HEIGHT = GRID_SIZE * 50 + 37;
 
     // the gameboard is a 2d String array
     private int[][] gameboard = new int[GRID_SIZE][GRID_SIZE];
@@ -18,9 +21,6 @@ public class Gameboard extends JPanel{
     private int defaultTile = 0;
     private int cheetahTile = 1;
     private int zebraTile = 2;
-
-    public static final String YELLOW = "\033[0;33m";
-    public static final String RESET = "\033[0m";
 
     // default constructor
     public Gameboard() {
@@ -63,7 +63,7 @@ public class Gameboard extends JPanel{
     public void gameBoard() { // Creates the window
         frame = new JFrame("Cheetahs vs Zebras");
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.setSize(1015, 1040);
+        frame.setSize(WIDTH, HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().add(this);
         frame.setVisible(true);
