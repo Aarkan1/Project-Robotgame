@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    public void gameloop() {
+    public void gameloop(int numGe, int numZe) {
 
         // starts off with painting the grid
         Gameboard game = new Gameboard();
@@ -19,10 +19,10 @@ public class Game {
         ArrayList<Robot> cheetahs = new ArrayList<>();
 
         // fills lists with robot objects
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < numZe; i++) {
             zebras.add(new ZebraRobot());
         }
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < numGe; i++) {
             cheetahs.add(new CheetahRobot());
         }
 

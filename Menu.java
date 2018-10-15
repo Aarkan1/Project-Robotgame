@@ -74,7 +74,7 @@ public class Menu extends JFrame implements ActionListener {
                     zebraInput.setBackground(Color.RED);
                 }
                 if (startGame == 2) {
-                    runGame();
+                    runGame(numGe,numZe);
                 }
             }
         });
@@ -82,10 +82,10 @@ public class Menu extends JFrame implements ActionListener {
 
     }
 
-    public void runGame() {
+    public void runGame(int numGe,int numZe) {
         setVisible(false);
         dispose();
         Game game = new Game();
-        game.gameloop();
+        game.gameloop(numGe,numZe);
     }
 }
